@@ -21,9 +21,13 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-
+	public void launch() {
+		
+	}
 	public static void main(String[] args) {
-
+		Server server = new Server();
+		server.launch();
+		//TODO should move the things in construcotr to a launch function
 	}
 
 	
@@ -51,7 +55,6 @@ public class Server {
 	}//end of Receiver class
 	
 	class ReceiverService implements Runnable {
-
 		private Socket socket;
 		
 		public ReceiverService (Socket socket) {
@@ -68,8 +71,7 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				//Do unmarshalling here
-				
+				//Do unmarshalling here??
 				
 			} catch (IOException e) {
 				e.printStackTrace();
