@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
 
 
 /*Start trying step3*/
@@ -36,8 +37,10 @@ public class StepThree implements Serializable{
 			output.writeObject(object);
 			output.close();
 			System.out.println(object.getValue());
+			HashSet <Integer> a = new HashSet <Integer>();
 			
 			//recreating it
+			
 			ObjectInputStream input = new ObjectInputStream(new FileInputStream("test.out"));
 			Object recreatingObj = input.readObject();
 			System.out.println(((StepThree) recreatingObj).getValue());
