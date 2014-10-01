@@ -5,6 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class RMIMessage implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int objectID;
 	
 	private String methodName;
@@ -22,6 +27,7 @@ public class RMIMessage implements Serializable{
 	public int getObjectID() { return objectID; }
 	public String getMethodName() { return methodName; }
 	public Object[] getParams() { return params; }
+	public Object getReturnVal() { return returnVal; }
 	
 	/* Invoke method in the object */
 	public void invoke(Object remoteObj) {
@@ -48,7 +54,7 @@ public class RMIMessage implements Serializable{
 		}
 		
 		try {
-			method.invoke(remoteObj, params);
+			returnVal = method.invoke(remoteObj, params);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

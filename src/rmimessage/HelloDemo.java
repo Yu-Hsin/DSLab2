@@ -14,6 +14,10 @@ public class HelloDemo {
 		objectMap.put(h.id, h);
 	}
 	
+	public Hello getHello(int id) {
+		return objectMap.get(id);
+	}
+	
 	public static class Hello {
 		public int id;
 		
@@ -27,6 +31,10 @@ public class HelloDemo {
 		
 		public void sayHello() {
 			System.out.println("Hello");
+		}
+		
+		public void sayHello(String a, String b) {
+			System.out.println("Hello " + a + " " + b);
 		}
 		
 	}
@@ -46,9 +54,18 @@ public class HelloDemo {
 		RMIMessage msg = new RMIMessage(demoID, "sayHello", param);
 		RMIMessage msg2 = new RMIMessage(demoID, "sayHello", null);
 		
+		/* Multiple Params */
+		Object[] param2 = new Object[2];
+		param2[0] = "Jas";
+		param2[1] = "Son";
+		RMIMessage msg3 = new RMIMessage(demoID, "sayHello", param2);
+		
+		
 		/* invoke message */
-		msg.invoke(demoObj);
-		msg2.invoke(demoObj);
+		Hello remote = demo.getHello(demoID);
+		msg.invoke(remote);
+		msg2.invoke(remote);
+		msg3.invoke(remote);
 	}
 	
 	
