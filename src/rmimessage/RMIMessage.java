@@ -5,9 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class RMIMessage implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private int objectID;
@@ -69,7 +67,5 @@ public class RMIMessage implements Serializable{
 		
 		
 	}
-	
-	
 	
 }
