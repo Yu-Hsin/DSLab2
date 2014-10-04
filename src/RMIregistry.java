@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.HashMap;
 
 
@@ -14,7 +13,7 @@ public class RMIregistry {
 	private static final int port2server = 2020;
 	private HashMap <String, Reference> mapping;
 	
-
+	
 	public RMIregistry() {
 		mapping = new HashMap <String, Reference>();
 	}
@@ -75,12 +74,15 @@ public class RMIregistry {
 		@Override
 		public void run() {
 			int remoteport = socket.getPort();
-			SocketAddress sa = socket.getRemoteSocketAddress();
-			Reference rr = new Reference(sa, remoteport);
+			String ip = socket.getInetAddress().getHostName();
+			Reference rr = new Reference(ip, remoteport);
 			try {
 				BufferedReader str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
+				str.close();
 				mapping.put(objName, rr);
+				System.out.println(remoteport + " " + ip + " " + objName);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	

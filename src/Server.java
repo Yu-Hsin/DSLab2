@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import rmimessage.RMIMessage; //TODO make it into the same package
 
@@ -9,7 +11,9 @@ import rmimessage.RMIMessage; //TODO make it into the same package
 public class Server {
 
 	private static final int port = 1234; // TODO can we hard-code this?
-
+	
+	//128.2.100.188 -> ghc55 (node 0)
+	
 	public Server() {
 
 	}
@@ -29,8 +33,25 @@ public class Server {
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.launch();
+		server.bind ("AAAA","128.2.100.188",2020);
+		server.bind ("BBBB","128.2.100.188",2020);
+		server.bind ("CCCC","128.2.100.188",2020);
+		
 	}
 
+	public void bind(String objName, String ip, int port){
+		try {
+			Socket socket = new Socket(ip, port);
+			OutputStreamWriter dOut = new OutputStreamWriter(socket.getOutputStream());
+			dOut.write(objName);
+			dOut.flush();
+			dOut.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	class Receiver implements Runnable {
 		private ServerSocket serversocket;
@@ -72,9 +93,6 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				
-				
-				
 				
 			} catch (IOException e) {
 				e.printStackTrace();

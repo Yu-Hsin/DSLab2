@@ -1,18 +1,17 @@
 import java.io.Serializable;
-import java.net.SocketAddress;
 
 public class Reference implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private SocketAddress ip;
+	private String ip;
 	private int port;
 
-	public Reference(SocketAddress ip, int port) {
+	public Reference(String ip, int port) {
 		this.ip = ip;
 		this.port = port;
 	}
 
-	public SocketAddress getIP() {
+	public String getIP() {
 		return ip;
 	}
 
