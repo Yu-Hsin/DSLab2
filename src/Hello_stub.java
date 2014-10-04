@@ -20,7 +20,7 @@ public class Hello_stub implements HelloInterface {
 	@Override
 	public String sayHello(String name) throws Remote440Exception {
 	
-		RMIMessage msg = new RMIMessage(this.getClass().toString(), "sayHello", new Object[]{name});
+		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "sayHello", new Object[]{name});
 		
 		String ans = this.invoke(msg);
 		return ans;
@@ -28,7 +28,7 @@ public class Hello_stub implements HelloInterface {
 	
 	private String invoke(RMIMessage msg) {
 		
-		System.out.println("HELLO_STUB:  start invode");
+		System.out.println("HELLO_STUB:  start invoke");
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
@@ -41,7 +41,7 @@ public class Hello_stub implements HelloInterface {
 	    	ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 	    	Object response = in.readObject();
 			
-	    	if (response instanceof String) return (String)response;
+	    	if (response instanceof RMIMessage) return (String) ((RMIMessage)response).getReturnVal();
 	    	
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

@@ -25,7 +25,8 @@ public class RMIRegistryClient {
 			Socket s = new Socket(registryIP, port);
 			
 			OutputStreamWriter out = new OutputStreamWriter(s.getOutputStream());
-			out.write(serviceName);
+			out.write(serviceName + "\n");
+			out.flush();
 			
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 			Object response = in.readObject();
