@@ -54,15 +54,35 @@ public class RMIregistry {
 				Socket serverConnection;
 				try {
 					serverConnection = serversocket.accept();
-					ServerService rs = new ServerService(serverConnection);
-					new Thread(rs).start();
+					ServerService ss = new ServerService(serverConnection);
+					new Thread(ss).start();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-	}
+	}//end of receiverserver class
 	
+	
+	class ReceiverClient implements Runnable {
+		private ServerSocket serversocket;
+
+		public ReceiverClient(ServerSocket serversocket) {
+			this.serversocket = serversocket;
+		}
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					Socket clientConnection = serversocket.accept();// keep listening to this port
+					ClientService cs = new ClientService(clientConnection);
+					new Thread(cs).start();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}//end of Receiverclient class
 	
 	class ServerService implements Runnable {
 		private Socket socket;
@@ -87,27 +107,7 @@ public class RMIregistry {
 	}
 	
 	
-	
-	class ReceiverClient implements Runnable {
-		private ServerSocket serversocket;
 
-		public ReceiverClient(ServerSocket serversocket) {
-			this.serversocket = serversocket;
-		}
-		
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Socket clientConnection = serversocket.accept();// keep listening to this port
-					ClientService cs = new ClientService(clientConnection);
-					new Thread(cs).start();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}//end of Receiver class
 	
 	class ClientService implements Runnable {
 		private Socket socket;

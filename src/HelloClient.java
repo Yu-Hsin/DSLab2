@@ -6,16 +6,13 @@ public class HelloClient {
 		
 		try {
 			String ip = null;
-			int port = 1099;
+			int port = 0;
 			
-			if (args.length == 0) {
+			if (args.length != 2) {
 				System.out.println("ERROR: Insert host ip address!!!!");
 				return;
 			}
-			else if (args.length == 1) {
-				ip = args[0];
-			}
-			else if (args.length == 2) {
+			else {
 				ip = args[0];
 				port = Integer.valueOf(args[1]);
 			}

@@ -33,6 +33,7 @@ public class Server {
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.launch();
+		//instantiate objects
 		try {
 			Hello a = new Hello();
 			server.mapping.put("Hello", a);
