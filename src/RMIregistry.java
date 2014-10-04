@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,9 +9,8 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 
 
-
-
 public class RMIregistry {
+	
 	private static final int port2client = 4040;
 	private static final int port2server = 2020;
 	private HashMap <String, RemoteRef> mapping;
@@ -41,10 +41,10 @@ public class RMIregistry {
 			ServerSocket socketclient = new ServerSocket(port2client);
 			ServerSocket socketserver = new ServerSocket(port2server);
 			
-			//ReceiverClient receiverClient = new ReceiverClient(socketclient);
+			ReceiverClient receiverClient = new ReceiverClient(socketclient);
 			ReceiverServer receiverServer = new ReceiverServer(socketserver);
 			
-			//new Thread(receiverClient).start();
+			new Thread(receiverClient).start();
 			new Thread(receiverServer).start();
 
 		} catch (IOException e) {
@@ -105,7 +105,7 @@ public class RMIregistry {
 	}
 	
 	
-	/*
+	
 	class ReceiverClient implements Runnable {
 		private ServerSocket serversocket;
 
@@ -118,15 +118,36 @@ public class RMIregistry {
 			while (true) {
 				try {
 					Socket clientConnection = serversocket.accept();// keep listening to this port
-					System.out.println("Received RMIMessage");
-					ReceiverService rs = new ReceiverService(clientConnection);
-					Thread connectionThread = new Thread(rs);
-					connectionThread.start();
+					ClientService cs = new ClientService(clientConnection);
+					new Thread(cs).start();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}//end of Receiver class
-	*/
+	
+	class ClientService implements Runnable {
+		private Socket socket;
+		public ClientService (Socket socket) {
+			this.socket = socket;
+		}
+		@Override
+		public void run() {
+			BufferedReader str;
+			try {
+				str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				String objName = str.readLine();
+				RemoteRef rr = mapping.get(objName);
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+				out.writeObject(rr);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 }
