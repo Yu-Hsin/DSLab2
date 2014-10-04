@@ -18,7 +18,7 @@ public class Hello_stub implements HelloInterface {
 	@Override
 	public String sayHello(String name) throws Remote440Exception {
 	
-		RMIMessage msg = new RMIMessage(this.getClass().toString(), "sayHello", new Object[]{name});
+		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "sayHello", new Object[]{name});
 		
 		String ans = this.invoke(msg);
 		return ans;
@@ -26,10 +26,11 @@ public class Hello_stub implements HelloInterface {
 	
 	private String invoke(RMIMessage msg) {
 		
-		System.out.println("HELLO_STUB:  start invode");
+		System.out.println("HELLO_STUB:  start invoke");
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
+			
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			
 			out.writeObject(msg);

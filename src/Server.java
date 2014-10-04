@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -32,7 +33,13 @@ public class Server {
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.launch();
-		
+		try {
+			Hello a = new Hello();
+			server.mapping.put("Hello", a);
+			server.bind("Hello","128.2.100.188", 2020);
+		} catch (Remote440Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -91,7 +98,11 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				
+				String objName = ((RMIMessage) RMIMessageObj).getClassName();
+				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+				System.out.println("Sending the result back to the client!!!");
+				out.writeObject(RMIMessageObj);
 							
 			} catch (IOException e) {
 				e.printStackTrace();
