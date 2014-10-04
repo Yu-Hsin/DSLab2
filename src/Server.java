@@ -3,7 +3,7 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import rmimessage.RMIMessage; //TODO make it in the same package
+import rmimessage.RMIMessage; //TODO make it into the same package
 
 
 public class Server {
@@ -11,8 +11,11 @@ public class Server {
 	private static final int port = 1234; // TODO can we hard-code this?
 
 	public Server() {
+
+	}
+	public void launch() { //creating a port to listen to incoming RMIMessage
 		try {
-			ServerSocket socket = new ServerSocket(port); // server
+			ServerSocket socket = new ServerSocket(port); 
 			Receiver receiver = new Receiver(socket);
 			Thread t = new Thread(receiver);
 			t.start();
@@ -21,13 +24,11 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	public void launch() {
-		
-	}
+	
+	
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.launch();
-		//TODO should move the things in construcotr to a launch function
 	}
 
 	
@@ -37,7 +38,7 @@ public class Server {
 		public Receiver(ServerSocket serversocket) {
 			this.serversocket = serversocket;
 		}
-
+		
 		@Override
 		public void run() {
 			while (true) {
@@ -71,7 +72,9 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				//Do unmarshalling here??
+				
+				
+				
 				
 			} catch (IOException e) {
 				e.printStackTrace();
