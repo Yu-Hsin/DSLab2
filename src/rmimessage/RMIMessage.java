@@ -12,7 +12,6 @@ public class RMIMessage implements Serializable{
 	
 	private String methodName;
 	private Object[] params;
-	
 	private Object returnVal;
 	
 	public RMIMessage(int id, String m, Object[] p) {
@@ -50,22 +49,15 @@ public class RMIMessage implements Serializable{
 			System.out.println("No Such Method!!!!!!");
 			e.printStackTrace();
 		}
-		
+	
 		try {
 			returnVal = method.invoke(remoteObj, params);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
-	
 }
