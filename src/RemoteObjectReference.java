@@ -4,19 +4,16 @@ public class RemoteObjectReference {
 	private String ipAddr;
 	private int port;
 	private String remoteInterfaceName;
-	private int objID;
 	
-	public RemoteObjectReference(String ip, int p, String riName, int objid) {
+	public RemoteObjectReference(String ip, int p, String riName) {
 		ipAddr = ip;
 		port = p;
 		remoteInterfaceName = riName;
-		objID = objid;
 	}
 	
 	public String getIP() { return ipAddr; }
 	public int getPort() { return port; }
 	public String getInterfaceName() { return remoteInterfaceName; }
-	public int getID() { return objID; }
 	
 	
 	public Object localise() {
@@ -26,6 +23,8 @@ public class RemoteObjectReference {
 		try {
 			Class<?> c = Class.forName(stubName);
 			Object o = c.newInstance();
+			
+			((Hello_stub) o).setReference(this);
 			
 			return o;
 		} catch (ClassNotFoundException e) {

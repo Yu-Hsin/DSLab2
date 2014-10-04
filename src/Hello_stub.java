@@ -9,23 +9,26 @@ import rmimessage.RMIMessage;
 
 public class Hello_stub implements HelloInterface {
 
-	RemoteObjectReference ref = null;
+	RemoteObjectReference ref;
 	
 	public Hello_stub() {}
-	public Hello_stub(RemoteObjectReference r) {
+	
+	public void setReference(RemoteObjectReference r) {
 		ref = r;
 	}
 	
 	@Override
 	public String sayHello(String name) throws Remote440Exception {
 	
-		RMIMessage msg = new RMIMessage(ref.getID(), "sayHello", new Object[]{name});
+		RMIMessage msg = new RMIMessage(this.getClass().toString(), "sayHello", new Object[]{name});
 		
 		String ans = this.invoke(msg);
 		return ans;
 	}
 	
 	private String invoke(RMIMessage msg) {
+		
+		System.out.println("HELLO_STUB:  start invode");
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());

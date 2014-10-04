@@ -8,20 +8,20 @@ public class RMIMessage implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private int objectID;
+	private String className;
 	
 	private String methodName;
 	private Object[] params;
 	private Object returnVal;
 	
-	public RMIMessage(int id, String m, Object[] p) {
-		objectID = id;
+	public RMIMessage(String c, String m, Object[] p) {
+		className = c;
 		methodName = m;
 		params = p;
 	}
 	
 	/* Get Information */
-	public int getObjectID() { return objectID; }
+	public String getClassName() { return className; }
 	public String getMethodName() { return methodName; }
 	public Object[] getParams() { return params; }
 	public Object getReturnVal() { return returnVal; }

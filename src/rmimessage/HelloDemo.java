@@ -51,21 +51,21 @@ public class HelloDemo {
 		/* Create RMIMessage */
 		Object[] param = new Object[1];
 		param[0] = "Jason";
-		RMIMessage msg = new RMIMessage(demoID, "sayHello", param);
-		RMIMessage msg2 = new RMIMessage(demoID, "sayHello", null);
+		//RMIMessage msg = new RMIMessage(demoID, "sayHello", param);
+		//RMIMessage msg2 = new RMIMessage(demoID, "sayHello", null);
 		
 		/* Multiple Params */
 		Object[] param2 = new Object[2];
 		param2[0] = "Jas";
 		param2[1] = "Son";
-		RMIMessage msg3 = new RMIMessage(demoID, "sayHello", param2);
+		//RMIMessage msg3 = new RMIMessage(demoID, "sayHello", param2);
 		
 		
 		/* invoke message */
 		Hello remote = demo.getHello(demoID);
-		msg.invoke(remote);
-		msg2.invoke(remote);
-		msg3.invoke(remote);
+		//msg.invoke(remote);
+		//msg2.invoke(remote);
+		//msg3.invoke(remote);
 	}
 	
 	
