@@ -4,8 +4,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import rmimessage.RMIMessage;
-
 
 public class Hello_stub implements HelloInterface {
 

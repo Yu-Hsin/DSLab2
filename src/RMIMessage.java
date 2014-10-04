@@ -1,4 +1,4 @@
-package rmimessage;
+
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
