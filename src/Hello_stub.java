@@ -4,8 +4,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import rmimessage.RMIMessage;
-
 
 public class Hello_stub implements HelloInterface {
 
@@ -32,6 +30,7 @@ public class Hello_stub implements HelloInterface {
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
+			
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			
 			out.writeObject(msg);

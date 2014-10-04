@@ -1,21 +1,21 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-import rmimessage.RMIMessage; //TODO make it into the same package
+import java.util.HashMap;
 
 
 public class Server {
 
 	private static final int port = 1234; // TODO can we hard-code this?
-	
+	private HashMap <String, Object> mapping;
 	//128.2.100.188 -> ghc55 (node 0)
 	
 	public Server() {
-
+		mapping = new HashMap <String, Object>();
 	}
 	public void launch() { //creating a port to listen to incoming RMIMessage
 		try {
@@ -23,7 +23,7 @@ public class Server {
 			Receiver receiver = new Receiver(socket);
 			Thread t = new Thread(receiver);
 			t.start();
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,9 +33,13 @@ public class Server {
 	public static void main(String[] args) {
 		Server server = new Server();
 		server.launch();
-		server.bind ("AAAA","128.2.100.188",2020);
-		server.bind ("BBBB","128.2.100.188",2020);
-		server.bind ("CCCC","128.2.100.188",2020);
+		try {
+			Hello a = new Hello();
+			server.mapping.put("Hello", a);
+			server.bind("Hello","128.2.100.188", 2020);
+		} catch (Remote440Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -76,6 +80,7 @@ public class Server {
 		}
 	}//end of Receiver class
 	
+	
 	class ReceiverService implements Runnable {
 		private Socket socket;
 		
@@ -93,7 +98,12 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				
+				String objName = ((RMIMessage) RMIMessageObj).getClassName();
+				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
+				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+				System.out.println("Sending the result back to the client!!!");
+				out.writeObject(RMIMessageObj);
+							
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {

@@ -73,16 +73,13 @@ public class RMIregistry {
 		
 		@Override
 		public void run() {
-			int remoteport = socket.getPort();
 			String ip = socket.getInetAddress().getHostName();
-			Reference rr = new Reference(ip, remoteport);
+			Reference rr = new Reference(ip, 1234);
 			try {
 				BufferedReader str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
 				str.close();
 				mapping.put(objName, rr);
-				System.out.println(remoteport + " " + ip + " " + objName);
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
@@ -119,14 +116,16 @@ public class RMIregistry {
 		}
 		@Override
 		public void run() {
-			BufferedReader str;
+			 
 			try {
-				str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				BufferedReader str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
 				Reference rr = mapping.get(objName);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				out.writeObject(rr);
 				out.flush();
+				out.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

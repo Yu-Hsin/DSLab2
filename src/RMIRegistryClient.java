@@ -25,11 +25,15 @@ public class RMIRegistryClient {
 			Socket s = new Socket(registryIP, port);
 			
 			OutputStreamWriter out = new OutputStreamWriter(s.getOutputStream());
-			out.write(serviceName + "\n");
+			out.write(serviceName+"\n");
 			out.flush();
 			
+			
+			System.out.println("AAAAA");
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+			System.out.println("BBBBB");
 			Object response = in.readObject();
+			System.out.println("DDDDD");
 			
 			if (response instanceof Reference) {
 				
