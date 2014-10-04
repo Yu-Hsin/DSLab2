@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -13,27 +12,11 @@ public class RMIregistry {
 	
 	private static final int port2client = 4040;
 	private static final int port2server = 2020;
-	private HashMap <String, RemoteRef> mapping;
+	private HashMap <String, Reference> mapping;
 	
-	
-	public class RemoteRef implements Serializable{
-	
-		private static final long serialVersionUID = 1L;
-		private SocketAddress ip;
-		private int port;
-		
-		public RemoteRef(SocketAddress ip, int port) {
-			this.ip = ip;
-			this.port = port;
-		}
-		
-		public SocketAddress getIP () {return ip;}
-		public int getport () {return port;}
-	}
-	
-	
+
 	public RMIregistry() {
-		mapping = new HashMap <String, RemoteRef>();
+		mapping = new HashMap <String, Reference>();
 	}
 	
 	public void launch() {
@@ -93,7 +76,7 @@ public class RMIregistry {
 		public void run() {
 			int remoteport = socket.getPort();
 			SocketAddress sa = socket.getRemoteSocketAddress();
-			RemoteRef rr = new RemoteRef(sa, remoteport);
+			Reference rr = new Reference(sa, remoteport);
 			try {
 				BufferedReader str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
@@ -138,12 +121,11 @@ public class RMIregistry {
 			try {
 				str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
-				RemoteRef rr = mapping.get(objName);
+				Reference rr = mapping.get(objName);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				out.writeObject(rr);
-				
+				out.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
