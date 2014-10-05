@@ -25,8 +25,8 @@ public class RemoteObjectReference {
 			Object o = c.newInstance();
 			
 			((Remote440Stub) o).setReference(this);
-			
 			return o;
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {

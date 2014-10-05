@@ -48,7 +48,7 @@ public class RMIregistry {
 		RMIregistry rmiregistry = new RMIregistry(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		rmiregistry.launch();
 	}
-	
+
 	
 	class ReceiverServer implements Runnable {
 		private ServerSocket serversocket;

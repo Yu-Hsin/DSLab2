@@ -7,42 +7,44 @@ import java.net.UnknownHostException;
 
 public class RMIRegistryClient {
 	private String registryIP = null;
-	private int port = 0;
+	private int registryport = 0;
+	
 	
 	public RMIRegistryClient(String ip, int p) {
 		registryIP = ip;
-		port = p;
+		registryport = p;
 	}
 	
 	public static RMIRegistryClient getRegistry(String host, int p){
 		return new RMIRegistryClient(host, p);
 	}
 	
-	public Remote440 lookup(String serviceName) {
+	public Remote440 lookup(String objName) {
 		
 		try {
 			RemoteObjectReference objRef = null;
-			Socket s = new Socket(registryIP, port);
+			Socket s = new Socket(registryIP, registryport);
 			
 			OutputStreamWriter out = new OutputStreamWriter(s.getOutputStream());
-			out.write(serviceName+"\n");
+			out.write(objName+"\n");
 			out.flush();
 			
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 			Object response = in.readObject();
 			
+			
 			if (response instanceof Reference) {
 				Reference ref = (Reference) response;
-				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), serviceName);
+				if (!ref.getfind()) {
+					System.out.println(objName + " hasn't been registered yet!");
+					return null;
+				}
+				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), objName);
 			}
 			
-			s.close();
-			
-			if (objRef == null) return null;
-			else {
-				return (Remote440) objRef.localise();
-			}
-			
+			s.close();			
+			return objRef == null? null: (Remote440) objRef.localise();
+	
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

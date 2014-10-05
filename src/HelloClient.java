@@ -9,13 +9,13 @@ public class HelloClient {
 			int port = 0;
 			
 			if (args.length != 2) {
-				System.out.println("ERROR: Insert host ip address!!!!");
+				System.out.println("Usage: java HelloClient <IP of RMI registry> <port#>");
 				return;
 			}
-			else {
-				ip = args[0];
-				port = Integer.valueOf(args[1]);
-			}
+			
+			ip = args[0];
+			port = Integer.valueOf(args[1]);
+			
 			
 			RMIRegistryClient registry = RMIRegistryClient.getRegistry(ip, port);
 			HelloInterface h = (HelloInterface) registry.lookup("Hello");
