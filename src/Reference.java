@@ -7,6 +7,7 @@ public class Reference implements Serializable {
 	private int port;
 	private boolean find;
 	
+	
 	public Reference(String ip, int port, boolean find) {
 		this.ip = ip;
 		this.port = port;

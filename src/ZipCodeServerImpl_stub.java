@@ -15,14 +15,14 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public void initialise(ZipCodeList newlist) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "initialise", new Object[]{newlist});
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "initialise", new Object[]{newlist});
 		
 		this.invoke(msg);
 	}
 
 	@Override
 	public String find(String city) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "find", new Object[]{city});
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "find", new Object[]{city});
 		
 		String ans = (String) this.invoke(msg);
 		return ans;
@@ -30,7 +30,7 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public ZipCodeList findAll() {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "findAll", null);
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "findAll", null);
 		
 		ZipCodeList ans = (ZipCodeList) this.invoke(msg);
 		return ans;
@@ -38,7 +38,7 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public void printAll() {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "printAll", null);
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "printAll", null);
 		
 		this.invoke(msg);
 	}

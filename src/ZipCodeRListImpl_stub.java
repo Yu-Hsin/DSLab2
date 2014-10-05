@@ -20,7 +20,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public String find(String city) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "find",
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "find",
 				new Object[] { city });
 
 		String ans = (String) this.invoke(msg);
@@ -29,7 +29,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public ZipCodeRList add(String city, String zipcode) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "add",
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "add",
 				new Object[] {city, zipcode});
 
 		ZipCodeRList ans = (ZipCodeRList) this.invoke(msg);
@@ -38,7 +38,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public ZipCodeRList next() {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "next", null);
+		RMIMessage msg = new RMIMessage(ref.getObjName(), "next", null);
 
 		ZipCodeRList ans = (ZipCodeRList) this.invoke(msg);
 		return ans;
