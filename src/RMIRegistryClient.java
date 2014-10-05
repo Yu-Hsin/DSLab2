@@ -39,7 +39,7 @@ public class RMIRegistryClient {
 					System.out.println(objName + " hasn't been registered yet!");
 					return null;
 				}
-				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), className);
+				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), className, objName);
 			}
 			
 			s.close();			

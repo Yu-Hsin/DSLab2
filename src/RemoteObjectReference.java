@@ -7,10 +7,12 @@ public class RemoteObjectReference implements Serializable {
 	private String ipAddr;
 	private int port;
 	private String className;
+	private String objName;
 	
-	public RemoteObjectReference(String ip, int p, String cName) {
+	public RemoteObjectReference(String ip, int p, String cName, String oName) {
 		ipAddr = ip;
 		port = p;
+		objName = oName;
 		className = cName;
 	}
 	
@@ -18,6 +20,7 @@ public class RemoteObjectReference implements Serializable {
 	public int getPort() { return port; }
 
 	public String getClassName() { return className; }
+	public String getObjName() { return objName; }
 	
 	
 	public Object localise() {
