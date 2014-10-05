@@ -31,19 +31,17 @@ public class ZipCodeRListImpl implements ZipCodeRList {
 
 	// this is essentially cons.
 	public ZipCodeRList add(String c, String z) {
-		/*
-		System.out.println(c + " " +  z);
-		ZipCodeRListImpl tmp  = new ZipCodeRListImpl(c, z, this);
-		while(tmp!= null) {
-			System.out.println("===========================");
-			System.out.println(tmp.city + " " + tmp.zipcode);
-			tmp = (ZipCodeRListImpl) tmp.next();
-		}*/
 		return new ZipCodeRListImpl(c, z, this);
 	}
 
 	// this is essentially car.
 	public ZipCodeRList next() {
 		return next;
+	}
+
+	@Override
+	public String getCity() {
+		// TODO Auto-generated method stub
+		return city;
 	}
 }

@@ -75,4 +75,12 @@ public class ZipCodeRList_stub implements ZipCodeRList, Remote440Stub {
 		return null;
 	}
 
+	@Override
+	public String getCity() {
+		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "getCity", null);
+
+		String ans = (String) this.invoke(msg);
+		return ans;
+	}
+
 }

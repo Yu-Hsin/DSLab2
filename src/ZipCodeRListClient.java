@@ -74,6 +74,7 @@ public class ZipCodeRListClient {
 				.println("\n This is the remote list, printed using find/next.");
 		temp = l;
 		rtemp = rl;
+		
 		while (temp != null) {
 			// here is a test.
 			String res = rtemp.find(temp.city);

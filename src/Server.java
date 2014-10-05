@@ -14,7 +14,6 @@ public class Server {
 	private static int port2client, port2RMI;
 	private static String RMIaddress;
 	private static int timestamp = 0;
-	
 	private HashMap <String, Object> mapping;
 	
 	public Server(String IP, int p2R, int p2c) {
@@ -57,8 +56,8 @@ public class Server {
 			
 			/* Here is for Zip Code RList test */
 			ZipCodeRListImpl zcr = new ZipCodeRListImpl();
-			server.mapping.put("ZipCodeRList", zcr);
-			server.bind("ZipCodeRList", RMIaddress, port2RMI);
+			server.mapping.put("ZCR", zcr);
+			server.bind("ZCR", RMIaddress, port2RMI);
 			
 			
 		} catch (Remote440Exception e) {
@@ -124,15 +123,15 @@ public class Server {
 					return;
 				}
 				String objName = ((RMIMessage) RMIMessageObj).getObjectName();
-				System.out.println("Invoke method ......");
 				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
+				
 				
 				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
 					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
-					
-					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getObjectName());
+					//mapping.put(objName, ((RMIMessage) RMIMessageObj).getReturnVal());
+					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getReturnVal().getClass().toString());
 					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
 					timestamp++;
 				}

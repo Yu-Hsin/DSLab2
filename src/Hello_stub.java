@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 
 public class Hello_stub implements HelloInterface, Remote440Stub {
 
+	private static final long serialVersionUID = 1L;
 	RemoteObjectReference ref;
 	
 	public Hello_stub() {}
