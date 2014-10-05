@@ -97,8 +97,7 @@ public class Server {
 			}
 		}
 	}//end of Receiver class
-	
-	
+		
 	class ReceiverService implements Runnable {
 		private Socket socket;
 		

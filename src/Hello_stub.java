@@ -3,7 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+
 
 
 public class Hello_stub implements HelloInterface, Remote440Stub {
@@ -19,14 +19,13 @@ public class Hello_stub implements HelloInterface, Remote440Stub {
 	@Override
 	public String sayHello(String name) throws Remote440Exception {
 		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "sayHello", new Object[]{name});
-		
 		String ans = this.invoke(msg);
 		return ans;
 	}
 	
 	private String invoke(RMIMessage msg) {
 		
-		System.out.println("HELLO_STUB:  start invoke");
+		System.out.println("HELLO_STUB: start invoke");
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());

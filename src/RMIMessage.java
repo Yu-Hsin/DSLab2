@@ -46,7 +46,7 @@ public class RMIMessage implements Serializable{
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			System.out.println("No Such Method!!!!!!");
+			System.out.println("No Such Method!");
 			e.printStackTrace();
 		}
 	
