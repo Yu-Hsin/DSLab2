@@ -139,8 +139,7 @@ public class Server {
 					if (invertedMap.containsKey(((RMIMessage) RMIMessageObj).getReturnVal())) {
 						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), invertedMap.get(((RMIMessage) RMIMessageObj).getReturnVal()));
 						((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());					
-					}
-					else {
+					} else {
 						mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
 						invertedMap.put(((RMIMessage) RMIMessageObj).getReturnVal(), objName + timestamp);
 						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
