@@ -123,7 +123,7 @@ public class Server {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
-				String objName = ((RMIMessage) RMIMessageObj).getClassName();
+				String objName = ((RMIMessage) RMIMessageObj).getObjectName();
 				System.out.println("Invoke method ......");
 				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
 				

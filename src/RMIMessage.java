@@ -8,24 +8,25 @@ public class RMIMessage implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private String className;
+	private String objectName;
 	
 	private String methodName;
 	private Object[] params;
 	private Object returnVal;
 	
 	public RMIMessage(String c, String m, Object[] p) {
-		className = c;
+		objectName = c;
 		methodName = m;
 		params = p;
 	}
 	
 	/* Get Information */
-	public String getClassName() { return className; }
+	public String getObjectName() { return objectName; }
 	public String getMethodName() { return methodName; }
 	public Object[] getParams() { return params; }
 	public Object getReturnVal() { return returnVal; }
-	public void setReturnVal (Object a) {returnVal = a;}
+	public void setReturnVal(Object o) { returnVal = o; }
+	
 	/* Invoke method in the object */
 	public void invoke(Object remoteObj) {
 			
@@ -51,7 +52,6 @@ public class RMIMessage implements Serializable{
 		}
 	
 		try {
-			Object result = method.invoke(remoteObj, params);
 			returnVal = method.invoke(remoteObj, params);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
