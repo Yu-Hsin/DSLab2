@@ -132,7 +132,7 @@ public class Server {
 
 					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
 					//mapping.put(objName, ((RMIMessage) RMIMessageObj).getReturnVal());
-					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getReturnVal().getClass().toString());
+					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName());
 					
 					//RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getClassName());
 

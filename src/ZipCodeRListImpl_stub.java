@@ -20,7 +20,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public String find(String city) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "find",
+		RMIMessage msg = new RMIMessage(ref.getObjectName(), "find",
 				new Object[] { city });
 
 		String ans = (String) this.invoke(msg);
@@ -29,7 +29,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public ZipCodeRList add(String city, String zipcode) {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "add",
+		RMIMessage msg = new RMIMessage(ref.getObjectName(), "add",
 				new Object[] {city, zipcode});
 
 		ZipCodeRList ans = (ZipCodeRList) this.invoke(msg);
@@ -38,7 +38,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	@Override
 	public ZipCodeRList next() {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "next", null);
+		RMIMessage msg = new RMIMessage(ref.getObjectName(), "next", null);
 
 		ZipCodeRList ans = (ZipCodeRList) this.invoke(msg);
 		return ans;
@@ -46,8 +46,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 	}
 
 	private Object invoke(RMIMessage msg) {
-		System.out.println("ZipCodeRListStub:  start invoke  " + msg.getMethodName()
-				+ "  from " + msg.getObjectName());
+		System.out.println("ZipCodeRListStub: invoke method: " + msg.getMethodName() + " from " + msg.getObjectName());
 
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
@@ -75,12 +74,6 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 		return null;
 	}
 
-	@Override
-	public String getCity() {
-		RMIMessage msg = new RMIMessage(ref.getClassName(), "getCity", null);
 
-		String ans = (String) this.invoke(msg);
-		return ans;
-	}
 
 }

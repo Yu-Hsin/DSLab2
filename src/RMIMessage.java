@@ -56,6 +56,7 @@ public class RMIMessage implements Serializable{
 	
 		try {
 			returnVal = method.invoke(remoteObj, params);
+			className = returnVal.getClass().toString();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
