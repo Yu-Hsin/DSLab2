@@ -28,17 +28,11 @@ public class RMIRegistryClient {
 			out.write(serviceName+"\n");
 			out.flush();
 			
-			
-			System.out.println("AAAAA");
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-			System.out.println("BBBBB");
 			Object response = in.readObject();
-			System.out.println("DDDDD");
 			
 			if (response instanceof Reference) {
-				
 				Reference ref = (Reference) response;
-				
 				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), serviceName);
 			}
 			
@@ -50,16 +44,12 @@ public class RMIRegistryClient {
 			}
 			
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 }

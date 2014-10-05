@@ -43,13 +43,10 @@ public class Hello_stub implements HelloInterface, Remote440Stub {
 	    	if (response instanceof RMIMessage) return (String) ((RMIMessage)response).getReturnVal();
 	    	
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
