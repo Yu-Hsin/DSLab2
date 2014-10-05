@@ -1,6 +1,9 @@
+import java.io.Serializable;
 
-public class RemoteObjectReference {
 
+public class RemoteObjectReference implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String ipAddr;
 	private int port;
 	private String remoteInterfaceName;

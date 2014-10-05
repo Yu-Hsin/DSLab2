@@ -71,6 +71,4 @@ public class ZipCodeServer_stub implements ZipCodeServer, Remote440Stub{
 		return null;
 	}
 	
-	
-	
 }

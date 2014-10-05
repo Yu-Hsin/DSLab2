@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -52,6 +53,12 @@ public class Server {
 			ZipCodeServerImpl zipcode = new ZipCodeServerImpl();
 			server.mapping.put("ZipCodeServer", zipcode);
 			server.bind("ZipCodeServer", RMIaddress, port2RMI);
+			
+			/* Here is for Zip Code RList test */
+			ZipCodeRListImpl zcr = new ZipCodeRListImpl();
+			server.mapping.put("ZipCodeRList", zcr);
+			server.bind("ZipCodeRList", RMIaddress, port2RMI);
+			
 			
 		} catch (Remote440Exception e) {
 			e.printStackTrace();
@@ -116,10 +123,18 @@ public class Server {
 					return;
 				}
 				String objName = ((RMIMessage) RMIMessageObj).getClassName();
-				System.out.println("Invoke method......");
+				System.out.println("Invoke method ......");
 				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
+				
+				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
+					InetAddress addr = InetAddress.getLocalHost();
+					System.out.println("return a stub" + " from " + addr.getHostAddress());
+					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getClassName());
+					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
+				}
+				
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				System.out.println("Sending the result back to the client......");
+				System.out.println("Sending the result back to the client ......");
 				out.writeObject(RMIMessageObj);
 							
 			} catch (IOException e) {

@@ -25,7 +25,7 @@ public class RMIMessage implements Serializable{
 	public String getMethodName() { return methodName; }
 	public Object[] getParams() { return params; }
 	public Object getReturnVal() { return returnVal; }
-	
+	public void setReturnVal (Object a) {returnVal = a;}
 	/* Invoke method in the object */
 	public void invoke(Object remoteObj) {
 			
@@ -51,6 +51,7 @@ public class RMIMessage implements Serializable{
 		}
 	
 		try {
+			Object result = method.invoke(remoteObj, params);
 			returnVal = method.invoke(remoteObj, params);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
