@@ -10,16 +10,20 @@ import java.util.HashMap;
 
 public class Server {
 
-	private static final int port = 1234; // TODO can we hard-code this?
-	private HashMap <String, Object> mapping;
-	//128.2.100.188 -> ghc55 (node 0)
+	private static int port2client, port2RMI;
+	private static String RMIaddress;
 	
-	public Server() {
+	private HashMap <String, Object> mapping;
+	
+	public Server(String IP, int p2c, int p2R) {
+		RMIaddress = IP;
+		port2client = p2c;
+		port2RMI = p2R;
 		mapping = new HashMap <String, Object>();
 	}
 	public void launch() { //creating a port to listen to incoming RMIMessage
 		try {
-			ServerSocket socket = new ServerSocket(port); 
+			ServerSocket socket = new ServerSocket(port2client); 
 			Receiver receiver = new Receiver(socket);
 			Thread t = new Thread(receiver);
 			t.start();
@@ -31,13 +35,18 @@ public class Server {
 	
 	
 	public static void main(String[] args) {
-		Server server = new Server();
+		if (args.length != 3) {
+			System.out.println("Usage: java Server <RMIaddress> <Port# to RMI> <Port# to Client>");
+			return;
+		}
+		
+		Server server = new Server(args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		server.launch();
 		//instantiate objects
 		try {
 			Hello a = new Hello();
 			server.mapping.put("Hello", a);
-			server.bind("Hello","128.2.100.188", 2020);
+			server.bind("Hello", RMIaddress, port2RMI);
 		} catch (Remote440Exception e) {
 			e.printStackTrace();
 		}
@@ -51,6 +60,7 @@ public class Server {
 			dOut.write(objName);
 			dOut.flush();
 			dOut.close();
+			System.out.println("Binding object name: " + objName + " to RMIregistry");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -70,7 +80,7 @@ public class Server {
 			while (true) {
 				try {
 					Socket clientConnection = serversocket.accept();// keep listening to this port
-					System.out.println("Received RMIMessage");
+					System.out.println("Received RMIMessage......");
 					ReceiverService rs = new ReceiverService(clientConnection);
 					Thread connectionThread = new Thread(rs);
 					connectionThread.start();
@@ -100,9 +110,10 @@ public class Server {
 					return;
 				}
 				String objName = ((RMIMessage) RMIMessageObj).getClassName();
+				System.out.println("Invoke method......");
 				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				System.out.println("Sending the result back to the client!!!");
+				System.out.println("Sending the result back to the client......");
 				out.writeObject(RMIMessageObj);
 							
 			} catch (IOException e) {
