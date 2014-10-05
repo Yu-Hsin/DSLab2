@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-public class Hello_stub implements HelloInterface {
+public class Hello_stub implements HelloInterface, Remote440Stub {
 
 	RemoteObjectReference ref;
 	

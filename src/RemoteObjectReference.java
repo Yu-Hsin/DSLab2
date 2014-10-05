@@ -24,7 +24,7 @@ public class RemoteObjectReference {
 			Class<?> c = Class.forName(stubName);
 			Object o = c.newInstance();
 			
-			((Hello_stub) o).setReference(this);
+			((Remote440Stub) o).setReference(this);
 			
 			return o;
 		} catch (ClassNotFoundException e) {
