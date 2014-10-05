@@ -15,7 +15,7 @@ public class Server {
 	
 	private HashMap <String, Object> mapping;
 	
-	public Server(String IP, int p2c, int p2R) {
+	public Server(String IP, int p2R, int p2c) {
 		RMIaddress = IP;
 		port2client = p2c;
 		port2RMI = p2R;
@@ -55,6 +55,7 @@ public class Server {
 
 	public void bind(String objName, String ip, int port){
 		try {
+			System.out.println(ip + " " + port);
 			Socket socket = new Socket(ip, port);
 			OutputStreamWriter dOut = new OutputStreamWriter(socket.getOutputStream());
 			dOut.write(objName);
