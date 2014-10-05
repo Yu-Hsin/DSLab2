@@ -133,7 +133,7 @@ public class Server {
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
 
 					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
-					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getReturnVal().getClass().toString(), objName + timestamp);
+					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
 					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
 					timestamp++;
 				}
