@@ -129,9 +129,13 @@ public class Server {
 				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
+
 					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
 					//mapping.put(objName, ((RMIMessage) RMIMessageObj).getReturnVal());
 					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getReturnVal().getClass().toString());
+					
+					//RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getClassName());
+
 					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
 					timestamp++;
 				}

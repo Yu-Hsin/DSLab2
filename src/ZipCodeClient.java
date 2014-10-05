@@ -27,7 +27,7 @@ public class ZipCodeClient {
 
 		// locate the registry and get ror.
 		RMIRegistryClient registry = RMIRegistryClient.getRegistry(host, port);
-		ZipCodeServer zcs = (ZipCodeServer) registry.lookup(serviceName);
+		ZipCodeServer zcs = (ZipCodeServer) registry.lookup(serviceName, "ZipCodeServerImpl");
 
 		// reads the data and make a "local" zip code list.
 		// later this is sent to the server.

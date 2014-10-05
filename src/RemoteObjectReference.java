@@ -16,7 +16,8 @@ public class RemoteObjectReference implements Serializable {
 	
 	public String getIP() { return ipAddr; }
 	public int getPort() { return port; }
-	public String getInterfaceName() { return className; }
+
+	public String getClassName() { return className; }
 	
 	
 	public Object localise() {

@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-public class ZipCodeServer_stub implements ZipCodeServer, Remote440Stub{
+public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 	RemoteObjectReference ref;
 	
 	@Override
@@ -15,14 +15,14 @@ public class ZipCodeServer_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public void initialise(ZipCodeList newlist) {
-		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "initialise", new Object[]{newlist});
+		RMIMessage msg = new RMIMessage(ref.getClassName(), "initialise", new Object[]{newlist});
 		
 		this.invoke(msg);
 	}
 
 	@Override
 	public String find(String city) {
-		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "find", new Object[]{city});
+		RMIMessage msg = new RMIMessage(ref.getClassName(), "find", new Object[]{city});
 		
 		String ans = (String) this.invoke(msg);
 		return ans;
@@ -30,7 +30,7 @@ public class ZipCodeServer_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public ZipCodeList findAll() {
-		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "findAll", null);
+		RMIMessage msg = new RMIMessage(ref.getClassName(), "findAll", null);
 		
 		ZipCodeList ans = (ZipCodeList) this.invoke(msg);
 		return ans;
@@ -38,7 +38,7 @@ public class ZipCodeServer_stub implements ZipCodeServer, Remote440Stub{
 
 	@Override
 	public void printAll() {
-		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "printAll", null);
+		RMIMessage msg = new RMIMessage(ref.getClassName(), "printAll", null);
 		
 		this.invoke(msg);
 	}

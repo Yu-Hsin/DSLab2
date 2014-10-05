@@ -9,6 +9,7 @@ public class RMIMessage implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String objectName;
+	private String className;
 	
 	private String methodName;
 	private Object[] params;
@@ -22,10 +23,12 @@ public class RMIMessage implements Serializable{
 	
 	/* Get Information */
 	public String getObjectName() { return objectName; }
+	public String getClassName() { return className; }
 	public String getMethodName() { return methodName; }
 	public Object[] getParams() { return params; }
 	public Object getReturnVal() { return returnVal; }
 	public void setReturnVal(Object o) { returnVal = o; }
+	public void setClassName(String c) { className = c; }
 	
 	/* Invoke method in the object */
 	public void invoke(Object remoteObj) {
