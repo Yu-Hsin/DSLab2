@@ -19,7 +19,7 @@ public class RMIRegistryClient {
 		return new RMIRegistryClient(host, p);
 	}
 	
-	public Remote440 lookup(String objName) {
+	public Remote440 lookup(String objName, String className) {
 		
 		try {
 			RemoteObjectReference objRef = null;
@@ -39,7 +39,7 @@ public class RMIRegistryClient {
 					System.out.println(objName + " hasn't been registered yet!");
 					return null;
 				}
-				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), objName);
+				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), className);
 			}
 			
 			s.close();			

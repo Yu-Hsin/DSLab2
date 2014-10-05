@@ -18,7 +18,7 @@ public class HelloClient {
 			
 			
 			RMIRegistryClient registry = RMIRegistryClient.getRegistry(ip, port);
-			HelloInterface h = (HelloInterface) registry.lookup("Hello");
+			HelloInterface h = (HelloInterface) registry.lookup("Hello", "Hello");
 			
 			String msg = h.sayHello("Jason");
 			System.out.println(msg);
