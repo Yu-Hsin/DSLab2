@@ -13,6 +13,7 @@ public class Server {
 
 	private static int port2client, port2RMI;
 	private static String RMIaddress;
+	private static int timestamp = 0;
 	
 	private HashMap <String, Object> mapping;
 	
@@ -129,8 +130,11 @@ public class Server {
 				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
+					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
+					
 					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getClassName());
 					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
+					timestamp++;
 				}
 				
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
