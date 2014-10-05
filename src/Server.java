@@ -15,12 +15,14 @@ public class Server {
 	private static String RMIaddress;
 	private static int timestamp = 0;
 	private HashMap <String, Object> mapping;
+	private HashMap <Object, String> invertedMap;
 	
 	public Server(String IP, int p2R, int p2c) {
 		RMIaddress = IP;
 		port2client = p2c;
 		port2RMI = p2R;
 		mapping = new HashMap <String, Object>();
+		invertedMap = new HashMap <Object, String>();
 	}
 	public void launch() { //creating a port to listen to incoming RMIMessage
 		try {
@@ -47,16 +49,19 @@ public class Server {
 		try {
 			Hello a = new Hello();
 			server.mapping.put("Hello", a);
+			server.invertedMap.put(a, "Hello");
 			server.bind("Hello", RMIaddress, port2RMI);
 			
 			/* Here is for Zip Code test */
 			ZipCodeServerImpl zipcode = new ZipCodeServerImpl();
 			server.mapping.put("ZipCodeServer", zipcode);
+			server.invertedMap.put(zipcode, "ZipCodeServer");
 			server.bind("ZipCodeServer", RMIaddress, port2RMI);
 			
 			/* Here is for Zip Code RList test */
 			ZipCodeRListImpl zcr = new ZipCodeRListImpl();
 			server.mapping.put("ZCR", zcr);
+			server.invertedMap.put(zcr, "ZCR");
 			server.bind("ZCR", RMIaddress, port2RMI);
 			
 			
@@ -131,11 +136,17 @@ public class Server {
 				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
-
-					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
-					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
-					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
-					timestamp++;
+					if (invertedMap.containsKey(((RMIMessage) RMIMessageObj).getReturnVal())) {
+						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), invertedMap.get(((RMIMessage) RMIMessageObj).getReturnVal()));
+						((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());					
+					}
+					else {
+						mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
+						invertedMap.put(((RMIMessage) RMIMessageObj).getReturnVal(), objName + timestamp);
+						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
+						((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
+						timestamp++;
+					}
 				}
 				
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
