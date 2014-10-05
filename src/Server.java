@@ -47,6 +47,12 @@ public class Server {
 			Hello a = new Hello();
 			server.mapping.put("Hello", a);
 			server.bind("Hello", RMIaddress, port2RMI);
+			
+			/* Here is for Zip Code test */
+			ZipCodeServerImpl zipcode = new ZipCodeServerImpl();
+			server.mapping.put("ZipCodeServer", zipcode);
+			server.bind("ZipCodeServer", RMIaddress, port2RMI);
+			
 		} catch (Remote440Exception e) {
 			e.printStackTrace();
 		}

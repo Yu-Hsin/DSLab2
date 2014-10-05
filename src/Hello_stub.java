@@ -18,9 +18,6 @@ public class Hello_stub implements HelloInterface, Remote440Stub {
 	
 	@Override
 	public String sayHello(String name) throws Remote440Exception {
-		
-		
-		
 		RMIMessage msg = new RMIMessage(ref.getInterfaceName(), "sayHello", new Object[]{name});
 		
 		String ans = this.invoke(msg);
