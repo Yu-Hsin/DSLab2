@@ -39,9 +39,5 @@ public class ZipCodeRListImpl implements ZipCodeRList {
 		return next;
 	}
 
-	@Override
-	public String getCity() {
-		// TODO Auto-generated method stub
-		return city;
-	}
+
 }

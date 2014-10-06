@@ -118,10 +118,12 @@ public class Server {
 				ObjectInputStream in = new ObjectInputStream(socket.getInputStream()); //read object stream
 				Object RMIMessageObj = in.readObject();
 				if (RMIMessageObj == null) return; //didn't send anything to the server
+				
 				if (!(RMIMessageObj instanceof RMIMessage)) {
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
+				
 				String objName = ((RMIMessage) RMIMessageObj).getObjectName();
 				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
 				
@@ -131,11 +133,7 @@ public class Server {
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
 
 					mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
-					//mapping.put(objName, ((RMIMessage) RMIMessageObj).getReturnVal());
-					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getReturnVal().getClass().toString(), objName + timestamp);
-					
-					//RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client,((RMIMessage) RMIMessageObj).getClassName());
-
+					RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
 					((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
 					timestamp++;
 				}
