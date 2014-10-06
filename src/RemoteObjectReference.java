@@ -24,8 +24,7 @@ public class RemoteObjectReference implements Serializable {
 	
 	
 	public Object localise() {
-		System.out.println (className.equals("ZipCodeRListImpl"));
-		System.out.println(className);
+
 		String stubName = className + "_stub";
 		
 		try {
