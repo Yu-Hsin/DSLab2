@@ -73,10 +73,10 @@ public class Server {
 
 	public void bind(String objName, String ip, int port){
 		try {
-			System.out.println(ip + " " + port);
 			Socket socket = new Socket(ip, port);
 			OutputStreamWriter dOut = new OutputStreamWriter(socket.getOutputStream());
 			dOut.write(objName);
+			dOut.write(port2client);
 			dOut.flush();
 			dOut.close();
 			System.out.println("Binding object name: " + objName + " to RMIregistry");

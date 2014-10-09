@@ -13,13 +13,14 @@
 import java.io.*;
 
 public class ZipCodeRListClient {
-
+	
 	// the main takes three arguments:
 	// (0) a host.
 	// (1) a port.
 	// (2) a service name.
 	// (3) a file name as above.
 	public static void main(String[] args) throws IOException, Remote440Exception {
+
 		String host = args[0];
 		int port = Integer.parseInt(args[1]);
 		String serviceName = args[2];

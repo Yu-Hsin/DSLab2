@@ -11,15 +11,15 @@ public class RMIregistry {
 	
 	private static int port2client; //the port used to communicate with the client
 	private static int port2server; //the port used to communicate with the server
-	private static int portclient2server;
+	//private static int portclient2server;
 	private HashMap <String, Reference> mapping; 
 	
 	
-	public RMIregistry(int p2c, int p2s, int c2s) {
+	public RMIregistry(int p2c, int p2s) {
 		mapping = new HashMap <String, Reference>();
 		port2client = p2c;
 		port2server = p2s;
-		portclient2server = c2s;
+		//portclient2server = c2s;
 	}
 	
 	public void launch() {
@@ -41,11 +41,11 @@ public class RMIregistry {
 	
 	
 	public static void main (String[] args) {
-		if (args.length != 3) {
-			System.out.println("Usage: java RMIregistr <port# to client> <port# to server> <port# client to server>");
+		if (args.length != 2) {
+			System.out.println("Usage: java RMIregistr <port# to client> <port# to server>");
 			return;
 		}
-		RMIregistry rmiregistry = new RMIregistry(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+		RMIregistry rmiregistry = new RMIregistry(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		rmiregistry.launch();
 	}
 
@@ -102,10 +102,12 @@ public class RMIregistry {
 		@Override
 		public void run() {
 			String ip = socket.getInetAddress().getHostName();
-			Reference rr = new Reference(ip, portclient2server, true);
+			
 			try {
 				BufferedReader str = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String objName = str.readLine();
+				Integer p2c = Integer.parseInt(str.readLine());
+				Reference rr = new Reference(ip, p2c, true);
 				str.close();
 				System.out.println("Registering for the object: " + objName + "......");
 				mapping.put(objName, rr);
