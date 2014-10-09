@@ -32,7 +32,6 @@ public class RMIMessage implements Serializable{
 	
 	/* Invoke method in the object */
 	public void invoke(Object remoteObj) {
-			
 		Method method = null;
 		try {
 			if (params == null) {

@@ -35,6 +35,7 @@ public class RemoteObjectReference implements Serializable {
 			return o;
 			
 		} catch (ClassNotFoundException e) {
+			System.out.println("====" + stubName + "====");
 			e.printStackTrace();
 		} catch (InstantiationException e) {
 			e.printStackTrace();

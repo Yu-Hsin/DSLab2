@@ -129,21 +129,31 @@ public class Server {
 					return;
 				}
 				
-				String objName = ((RMIMessage) RMIMessageObj).getObjectName();
-				((RMIMessage) RMIMessageObj).invoke(mapping.get(objName));
+				/* Now we are sure RMIMessageObj is a RMIMessage */
+				RMIMessage mMsg = ((RMIMessage) RMIMessageObj);
+				String objName = mMsg.getObjectName();
+				mMsg.invoke(mapping.get(objName));
 				
-				
-				if (((RMIMessage) RMIMessageObj).getReturnVal() instanceof Remote440) {
+				/* If the return value is also a remote object, return its STUB */
+				if (mMsg.getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
+					Object returnObj = mMsg.getReturnVal();
 					System.out.println("return a stub" + " from " + addr.getHostAddress());
-					if (invertedMap.containsKey(((RMIMessage) RMIMessageObj).getReturnVal())) {
-						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), invertedMap.get(((RMIMessage) RMIMessageObj).getReturnVal()));
-						((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());					
+					
+					if (invertedMap.containsKey(returnObj)) {
+						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(), 
+																			  port2client, 
+																			  mMsg.getClassName(), 
+																			  invertedMap.get(returnObj));
+						mMsg.setReturnVal((Remote440)ror.localise());					
 					} else {
-						mapping.put(objName + timestamp, ((RMIMessage) RMIMessageObj).getReturnVal());
-						invertedMap.put(((RMIMessage) RMIMessageObj).getReturnVal(), objName + timestamp);
-						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),port2client, ((RMIMessage) RMIMessageObj).getClassName(), objName + timestamp);
-						((RMIMessage) RMIMessageObj).setReturnVal((Remote440)ror.localise());
+						mapping.put(objName + timestamp, returnObj);
+						invertedMap.put(returnObj, objName + timestamp);
+						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(),
+																			  port2client, 
+																			  mMsg.getClassName(), 
+																			  objName + timestamp);
+						mMsg.setReturnVal((Remote440)ror.localise());
 						timestamp++;
 					}
 				}
