@@ -11,7 +11,6 @@ public class RMIregistry {
 	
 	private static int port2client; //the port used to communicate with the client
 	private static int port2server; //the port used to communicate with the server
-	//private static int portclient2server;
 	private HashMap <String, Reference> mapping; 
 	
 	
@@ -19,11 +18,11 @@ public class RMIregistry {
 		mapping = new HashMap <String, Reference>();
 		port2client = p2c;
 		port2server = p2s;
-		//portclient2server = c2s;
 	}
 	
 	public void launch() {
 		try {
+		  //two serversocket for listening to the server and the client
 			ServerSocket socketclient = new ServerSocket(port2client);
 			ServerSocket socketserver = new ServerSocket(port2server);
 			
@@ -101,6 +100,7 @@ public class RMIregistry {
 		
 		@Override
 		public void run() {
+		  //get the server's ip
 			String ip = socket.getInetAddress().getHostName();
 			
 			try {
@@ -110,6 +110,7 @@ public class RMIregistry {
 				Reference rr = new Reference(ip, p2c, true);
 				str.close();
 				System.out.println("Registering for the object: " + objName + "......");
+				//update the mapping table
 				mapping.put(objName, rr);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -134,14 +135,16 @@ public class RMIregistry {
 				System.out.println("Searching for refernce of object: " + objName);
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				Reference rr = null;
-				if (!mapping.containsKey(objName)) {
+				
+				if (!mapping.containsKey(objName)) { //the object name hasn't been registered
 					System.out.println("Haven't registered for object: " + objName);
 					rr = new Reference ("", 0, false);
-				} else {
+				} else { //registered
 					System.out.println("Reference found...");
 					System.out.println("Reference sent...");
 					rr = mapping.get(objName);
 				}
+				
 				
 				out.writeObject(rr);
 				out.flush();

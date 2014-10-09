@@ -37,7 +37,8 @@ public class RMIMessage implements Serializable{
 	public void invoke(Object remoteObj) {
 		Method method = null;
 		try {
-			// There no parameters
+		  
+			// There are no parameters
 			if (params == null) {
 				method = remoteObj.getClass().getMethod(methodName);
 			}

@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public class Server {
 
+  //variable declaration
 	private static int port2client, port2RMI;
 	private static String RMIaddress;
 	private static int timestamp = 0;
@@ -24,6 +25,7 @@ public class Server {
 		mapping = new HashMap <String, Object>();
 		invertedMap = new HashMap <Object, String>();
 	}
+	
 	public void launch() { //creating a port to listen to incoming RMIMessage
 		try {
 			ServerSocket socket = new ServerSocket(port2client); 
@@ -61,6 +63,7 @@ public class Server {
 			
 	}
 
+	//bind the object name to the RMI registry server
 	public void bind(String objName, String ip, int port){
 		try {
 			Socket socket = new Socket(ip, port);
@@ -114,7 +117,7 @@ public class Server {
 				Object RMIMessageObj = in.readObject();
 				if (RMIMessageObj == null) return; //didn't send anything to the server
 				
-				if (!(RMIMessageObj instanceof RMIMessage)) {
+				if (!(RMIMessageObj instanceof RMIMessage)) { //check if the message is a RMIMessageObj object
 					System.out.println("Not a RMIMessage object!");
 					return;
 				}
@@ -130,6 +133,7 @@ public class Server {
 					Object returnObj = mMsg.getReturnVal();
 					System.out.println("Returned object is a romote object: pass by referecne ...... sent ......");
 					
+					/* Check if we need to create a new name for this return object*/
 					if (invertedMap.containsKey(returnObj)) {
 						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(), 
 																			  port2client, 
@@ -151,7 +155,6 @@ public class Server {
 				  System.out.println("Returned object is not a remote object: pass by value ...... sent ......");
 				
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				
 				out.writeObject(RMIMessageObj);
 							
 			} catch (IOException e) {
