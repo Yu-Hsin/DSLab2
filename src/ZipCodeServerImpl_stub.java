@@ -14,14 +14,14 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 	}
 
 	@Override
-	public void initialise(ZipCodeList newlist) {
+	public void initialise(ZipCodeList newlist) throws Remote440Exception {
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "initialise", new Object[]{newlist});
 		
 		this.invoke(msg);
 	}
 
 	@Override
-	public String find(String city) {
+	public String find(String city)  throws Remote440Exception {
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "find", new Object[]{city});
 		
 		String ans = (String) this.invoke(msg);
@@ -29,7 +29,7 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 	}
 
 	@Override
-	public ZipCodeList findAll() {
+	public ZipCodeList findAll() throws Remote440Exception {
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "findAll", null);
 		
 		ZipCodeList ans = (ZipCodeList) this.invoke(msg);
@@ -37,13 +37,13 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 	}
 
 	@Override
-	public void printAll() {
+	public void printAll() throws Remote440Exception {
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "printAll", null);
 		
 		this.invoke(msg);
 	}
 
-	public Object invoke(RMIMessage msg) {
+	public Object invoke(RMIMessage msg) throws Remote440Exception {
 		
 		
 		try {
@@ -60,12 +60,10 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 			
 	    	if (response instanceof RMIMessage) return ((RMIMessage)response).getReturnVal();
 	    	
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			throw new Remote440Exception("Failed to invoke function!!");
 		}
 		
 		return null;

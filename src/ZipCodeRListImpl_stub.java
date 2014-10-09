@@ -19,7 +19,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 	}
 
 	@Override
-	public String find(String city) {
+	public String find(String city) throws Remote440Exception {
 
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "find",
 				new Object[] { city });
@@ -29,7 +29,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 	}
 
 	@Override
-	public ZipCodeRList add(String city, String zipcode) {
+	public ZipCodeRList add(String city, String zipcode) throws Remote440Exception {
 
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "add",
 				new Object[] {city, zipcode});
@@ -39,7 +39,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 	}
 
 	@Override
-	public ZipCodeRList next() {
+	public ZipCodeRList next() throws Remote440Exception {
 
 		RMIMessage msg = new RMIMessage(ref.getObjName(), "next", null);
 		ZipCodeRList ans = (ZipCodeRList) this.invoke(msg);
@@ -47,7 +47,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 
 	}
 
-	private Object invoke(RMIMessage msg) {
+	private Object invoke(RMIMessage msg) throws Remote440Exception {
 	
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
@@ -64,12 +64,10 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 			if (response instanceof RMIMessage)
 				return ((RMIMessage) response).getReturnVal();
 
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			throw new Remote440Exception("Failed to invoke function!!");
 		}
 
 		return null;
