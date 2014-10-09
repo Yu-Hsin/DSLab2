@@ -44,7 +44,7 @@ public class ZipCodeServerImpl_stub implements ZipCodeServer, Remote440Stub{
 	}
 
 	public Object invoke(RMIMessage msg) {
-		System.out.println("ZipCodeStub:  start invoke  " + msg.getMethodName() + "  from " + msg.getObjectName());
+		
 		
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
