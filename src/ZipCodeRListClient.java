@@ -19,7 +19,7 @@ public class ZipCodeRListClient {
 	// (1) a port.
 	// (2) a service name.
 	// (3) a file name as above.
-	public static void main(String[] args) throws IOException, Remote440Exception {
+	public static void main(String[] args) throws IOException {
 
 		String host = args[0];
 		int port = Integer.parseInt(args[1]);
@@ -29,59 +29,67 @@ public class ZipCodeRListClient {
 		// locate the registry and get ror.
 		RMIRegistryClient sr = RMIRegistryClient.getRegistry(host, port);
 
-		ZipCodeRList rl = (ZipCodeRList) sr.lookup(serviceName, "ZipCodeRListImpl"); // rl --> stub
+		ZipCodeRList rl;
+		try {
+			rl = (ZipCodeRList) sr.lookup(serviceName, "ZipCodeRListImpl");
+			
+			// rl --> stub
 
-		// reads the data and make a "local" zip code list.
-		// later this is sent to the server.
-		// again no error check!
-		
-		ZipCodeList l = null;
-		boolean flag = true;
-		while (flag) {
-			String city = in.readLine();
-			String code = in.readLine();
-			if (city == null)
-				flag = false;
-			else
-				l = new ZipCodeList(city.trim(), code.trim(), l);
-		}
-		in.close();
-		// the final value of l should be the initial head of
-		// the list.
+			// reads the data and make a "local" zip code list.
+			// later this is sent to the server.
+			// again no error check!
+			
+			ZipCodeList l = null;
+			boolean flag = true;
+			while (flag) {
+				String city = in.readLine();
+				String code = in.readLine();
+				if (city == null)
+					flag = false;
+				else
+					l = new ZipCodeList(city.trim(), code.trim(), l);
+			}
+			in.close();
+			// the final value of l should be the initial head of
+			// the list.
 
-		// we print out the local zipcodelist.
-		System.out.println("This is the original list.");
-		ZipCodeList temp = l;
-		while (temp != null) {
-			System.out.println("city: " + temp.city + ", " + "code: "
-					+ temp.ZipCode);
-			temp = temp.next;
-		}
+			// we print out the local zipcodelist.
+			System.out.println("This is the original list.");
+			ZipCodeList temp = l;
+			while (temp != null) {
+				System.out.println("city: " + temp.city + ", " + "code: "
+						+ temp.ZipCode);
+				temp = temp.next;
+			}
 
-		// test "add".
-		System.out.println("testing add.");
-		temp = l;
-		ZipCodeRList rtemp = rl;
-		while (temp != null) {
-			rl = rl.add(temp.city, temp.ZipCode);
-			temp = temp.next;
-		}
-		System.out.println("add tested.");
-		// rl should contain the initial head of the list.
+			// test "add".
+			System.out.println("testing add.");
+			temp = l;
+			ZipCodeRList rtemp = rl;
+			while (temp != null) {
+				rl = rl.add(temp.city, temp.ZipCode);
+				temp = temp.next;
+			}
+			System.out.println("add tested.");
+			// rl should contain the initial head of the list.
 
-		// test "find" and "next" by printing all.
-		// This is also the test that "add" performed all right.
-		System.out
-				.println("\n This is the remote list, printed using find/next.");
-		temp = l;
-		rtemp = rl;
-		
-		while (temp != null) {
-			// here is a test.
-			String res = rtemp.find(temp.city);
-			System.out.println("city: " + temp.city + ", " + "code: " + res);
-			temp = temp.next;
-			rtemp = rtemp.next();
-		}
+			// test "find" and "next" by printing all.
+			// This is also the test that "add" performed all right.
+			System.out
+					.println("\n This is the remote list, printed using find/next.");
+			temp = l;
+			rtemp = rl;
+			
+			while (temp != null) {
+				// here is a test.
+				String res = rtemp.find(temp.city);
+				System.out.println("city: " + temp.city + ", " + "code: " + res);
+				temp = temp.next;
+				rtemp = rtemp.next();
+			}
+			
+		} catch (Remote440Exception e) {
+			e.printStackTrace();
+		} 
 	}
 }

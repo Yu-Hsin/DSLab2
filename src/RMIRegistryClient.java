@@ -37,7 +37,7 @@ public class RMIRegistryClient {
 				Reference ref = (Reference) response;
 				if (!ref.getfind()) {
 					System.out.println(objName + " hasn't been registered yet!");
-					throw new Remote440Exception();
+					throw new Remote440Exception("Remote Object not found!!");
 				}
 				objRef = new RemoteObjectReference(ref.getIP(), ref.getport(), className, objName);
 			}
