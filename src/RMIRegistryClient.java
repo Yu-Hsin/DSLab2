@@ -4,11 +4,17 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
+/* 
+ * 1. This class is used by client side program
+ * 	  to connect to RMIRegistry server.
+ * 2. The client side gets the remote reference of remote object
+ *    by the function "lookup".
+ * 3. If the requested remote object doesn't exist, here will
+ *    throw Remote440Exception.
+ */
 public class RMIRegistryClient {
 	private String registryIP = null;
 	private int registryport = 0;
-	
 	
 	public RMIRegistryClient(String ip, int p) {
 		registryIP = ip;
@@ -19,6 +25,7 @@ public class RMIRegistryClient {
 		return new RMIRegistryClient(host, p);
 	}
 	
+	/* Get the remote reference of the target remote object */
 	public Remote440 lookup(String objName, String className) throws Remote440Exception{
 		
 		try {
@@ -31,7 +38,6 @@ public class RMIRegistryClient {
 			
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 			Object response = in.readObject();
-			
 			
 			if (response instanceof Reference) {
 				Reference ref = (Reference) response;

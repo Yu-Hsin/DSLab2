@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/* 
+ * Encapsulate the remote method invocation
+ */
 public class RMIMessage implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -30,13 +33,15 @@ public class RMIMessage implements Serializable{
 	public void setReturnVal(Object o) { returnVal = o; }
 	public void setClassName(String c) { className = c; }
 	
-	/* Invoke method in the object */
+	/* Invoke method of the object */
 	public void invoke(Object remoteObj) {
 		Method method = null;
 		try {
+			// There no parameters
 			if (params == null) {
 				method = remoteObj.getClass().getMethod(methodName);
 			}
+			// There are parameters
 			else {
 				Class<?>[] paramsClass = new Class<?>[params.length];
 				for (int i = 0; i < params.length; i++) {

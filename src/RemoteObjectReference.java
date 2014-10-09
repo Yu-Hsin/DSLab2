@@ -1,6 +1,11 @@
 import java.io.Serializable;
 
-
+/*
+ * Remote Object Reference of the remote object.
+ * The information stored here includes:
+ * 		1. ip, port to remote host
+ * 		2. class name, and object name of the target remote object
+ */
 public class RemoteObjectReference implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +27,7 @@ public class RemoteObjectReference implements Serializable {
 	public String getClassName() { return className; }
 	public String getObjName() { return objName; }
 	
-	
+	/* Construct the stub of remote object */
 	public Object localise() {
 
 		String stubName = className + "_stub";
