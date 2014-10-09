@@ -48,8 +48,7 @@ public class ZipCodeRListImpl_stub implements ZipCodeRList, Remote440Stub {
 	}
 
 	private Object invoke(RMIMessage msg) {
-		System.out.println("ZipCodeRListStub: invoke method: " + msg.getMethodName() + " from " + msg.getObjectName());
-
+	
 		try {
 			Socket s = new Socket(ref.getIP(), ref.getPort());
 

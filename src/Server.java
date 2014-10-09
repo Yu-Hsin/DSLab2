@@ -46,12 +46,7 @@ public class Server {
 		Server server = new Server(args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		server.launch();
 		//instantiate objects
-		try {
-			Hello a = new Hello();
-			server.mapping.put("Hello", a);
-			server.invertedMap.put(a, "Hello");
-			server.bind("Hello", RMIaddress, port2RMI);
-			
+		
 			/* Here is for Zip Code test */
 			ZipCodeServerImpl zipcode = new ZipCodeServerImpl();
 			server.mapping.put("ZipCodeServer", zipcode);
@@ -64,19 +59,14 @@ public class Server {
 			server.invertedMap.put(zcr, "ZCR");
 			server.bind("ZCR", RMIaddress, port2RMI);
 			
-			
-		} catch (Remote440Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	public void bind(String objName, String ip, int port){
 		try {
 			Socket socket = new Socket(ip, port);
 			OutputStreamWriter dOut = new OutputStreamWriter(socket.getOutputStream());
-			dOut.write(objName);
-			dOut.write(port2client);
+			dOut.write(objName + "\n");
+			dOut.write(String.valueOf(port2client) + "\n");
 			dOut.flush();
 			dOut.close();
 			System.out.println("Binding object name: " + objName + " to RMIregistry");
@@ -138,7 +128,7 @@ public class Server {
 				if (mMsg.getReturnVal() instanceof Remote440) {
 					InetAddress addr = InetAddress.getLocalHost();
 					Object returnObj = mMsg.getReturnVal();
-					System.out.println("return a stub" + " from " + addr.getHostAddress());
+					System.out.println("Returned object is a romote object: pass by referecne ...... sent ......");
 					
 					if (invertedMap.containsKey(returnObj)) {
 						RemoteObjectReference ror = new RemoteObjectReference(addr.getHostAddress(), 
@@ -157,9 +147,11 @@ public class Server {
 						timestamp++;
 					}
 				}
+				else
+				  System.out.println("Returned object is not a remote object: pass by value ...... sent ......");
 				
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				System.out.println("Sending the result back to the client ......");
+				
 				out.writeObject(RMIMessageObj);
 							
 			} catch (IOException e) {
